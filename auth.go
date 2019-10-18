@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "net/http"
+    "html/template"
 )
 
 type Auth struct {}
@@ -10,7 +11,9 @@ type Auth struct {}
 func (a *Auth) login(res http.ResponseWriter, req *http.Request) {
     switch req.Method {
     case "GET":
-        fmt.Fprintf(res, "Login form")
+        //fmt.Fprintf(res, "Login form")
+        ts, _ := template.ParseFiles("./templates/login_form.tmpl")
+        ts.Execute(res, nil)
 
     case "POST":
         fmt.Fprintf(res, "Login handler")
@@ -21,6 +24,7 @@ func (a *Auth) login(res http.ResponseWriter, req *http.Request) {
 }
 
 func (a *Auth) logout(res http.ResponseWriter, req *http.Request) {
+
 }
 
 func (a *Auth) Setup() {
