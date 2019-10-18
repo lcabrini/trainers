@@ -11,8 +11,14 @@ type Auth struct {}
 func (a *Auth) login(res http.ResponseWriter, req *http.Request) {
     switch req.Method {
     case "GET":
-        //fmt.Fprintf(res, "Login form")
-        ts, _ := template.ParseFiles("./templates/login_form.tmpl")
+        files := []string{
+            "templates/login_form.tmpl",
+            "templates/base.tmpl",
+        }
+        ts, err := template.ParseFiles(files...)
+        if err != nil {
+            fmt.Println(err.Error())
+        }
         ts.Execute(res, nil)
 
     case "POST":
