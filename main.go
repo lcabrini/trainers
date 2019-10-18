@@ -5,5 +5,8 @@ import (
 )
 
 func main() {
+    auth := &Auth{}
+    auth.Setup()
+
     http.ListenAndServe(":8000", nil)
 }
