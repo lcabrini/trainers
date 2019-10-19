@@ -1,0 +1,9 @@
+package main
+
+const (
+    host = "localhost"
+    port = 5432
+    user = "someuser"
+    password = "somepassword"
+    dbname = "trainers"
+)

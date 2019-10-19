@@ -4,6 +4,8 @@ import (
     "fmt"
     "net/http"
     "html/template"
+    "database/sql"
+    _ "github.com/lib/pq"
 )
 
 type Auth struct {}
@@ -23,6 +25,18 @@ func (a *Auth) login(res http.ResponseWriter, req *http.Request) {
 
     case "POST":
         fmt.Fprintf(res, "Login handler")
+        psqlInfo := fmt.Sprintf("host=%s port=%d user=%s " +
+            "password=%s dbname=%s sslmode=disable", 
+            host, port, user, password, dbname)
+        db, err := sql.Open("postgres", psqlInfo)
+        if err != nil {
+            panic(err)
+        }
+        defer db.Close()
+        err = db.Ping()
+        if err != nil {
+            panic(err)
+        }
 
     default:
         http.Error(res, "Method not allowed", http.StatusMethodNotAllowed)
