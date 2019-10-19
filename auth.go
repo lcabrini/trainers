@@ -5,10 +5,28 @@ import (
     "net/http"
     "html/template"
     "database/sql"
-    _ "github.com/lib/pq"
 )
 
 type Auth struct {}
+
+func authenticate(username string, password string) bool {
+    var test string
+
+    query := `
+    select username 
+    from users 
+    where username = $1 and password = $2`
+    row := DB.QueryRow(query, username, password)
+    switch err := row.Scan(&test); err {
+    case sql.ErrNoRows:
+        return false
+    case nil:
+        return true
+    default:
+        panic(err)
+    }
+}
+
 
 func (a *Auth) login(res http.ResponseWriter, req *http.Request) {
     switch req.Method {
@@ -24,18 +42,13 @@ func (a *Auth) login(res http.ResponseWriter, req *http.Request) {
         ts.Execute(res, nil)
 
     case "POST":
-        fmt.Fprintf(res, "Login handler")
-        psqlInfo := fmt.Sprintf("host=%s port=%d user=%s " +
-            "password=%s dbname=%s sslmode=disable", 
-            host, port, user, password, dbname)
-        db, err := sql.Open("postgres", psqlInfo)
-        if err != nil {
-            panic(err)
-        }
-        defer db.Close()
-        err = db.Ping()
-        if err != nil {
-            panic(err)
+        req.ParseForm()
+        username := req.FormValue("username")
+        password := req.FormValue("password")
+        if authenticate(username, password) {
+            fmt.Fprintf(res, "Logged in")
+        } else {
+            fmt.Fprintf(res, "Authentication failed")
         }
 
     default:
