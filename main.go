@@ -2,7 +2,10 @@ package main
 
 import (
     "net/http"
+    "github.com/alexedwards/scs/v2"
 )
+
+var SessionManager *scs.SessionManager
 
 func main() {
     mux := http.NewServeMux()
@@ -16,5 +19,5 @@ func main() {
     fs := http.FileServer(http.Dir("static/"))
     mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
 
-    http.ListenAndServe(":8000", mux)
+    http.ListenAndServe(":8000", SessionManager.LoadAndSave(mux))
 }
