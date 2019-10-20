@@ -5,11 +5,13 @@ import (
 )
 
 func main() {
+    mux := http.NewServeMux()
+
     auth := &Auth{}
-    auth.Setup()
+    auth.Setup(mux)
 
     fs := http.FileServer(http.Dir("static/"))
-    http.Handle("/", fs)
+    mux.Handle("/", fs)
 
-    http.ListenAndServe(":8000", nil)
+    http.ListenAndServe(":8000", mux)
 }

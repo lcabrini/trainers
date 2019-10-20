@@ -60,7 +60,7 @@ func (a *Auth) logout(res http.ResponseWriter, req *http.Request) {
 
 }
 
-func (a *Auth) Setup() {
-    http.HandleFunc("/login", a.login)
-    http.HandleFunc("/logout", a.logout)
+func (a *Auth) Setup(mux *http.ServeMux) {
+    mux.HandleFunc("/login", a.login)
+    mux.HandleFunc("/logout", a.logout)
 }
