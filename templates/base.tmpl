@@ -3,20 +3,25 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/vue.js"></script>
+    <script defer src="/all.js"></script>
+    <link rel="stylesheet" href="/bulma.css">
     <title>Trainers</title>
   </head>
 
   <body>
-    <header>
-      <h1>Trainers</h1>
-    </header>
-    <nav>
-      <a href="#">Home</a>
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="http://localhost:8000">
+      </div>
     </nav>
 
-    <main>
-      {{template "main" .}}
-    </main>
+    <section>
+      <div class="container">
+        {{template "main" .}}
+      </div>
+    </section>
   </body>
 </html>
 {{end}}
