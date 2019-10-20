@@ -1,3 +1,4 @@
 .*.swp
 trainers
 config.go
+resources/
