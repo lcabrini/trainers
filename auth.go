@@ -11,18 +11,18 @@ import (
 type Auth struct {}
 
 func authenticate(username string, password string) (bool, uuid.UUID) {
-    var test uuid.UUID
+    var uid uuid.UUID
 
     query := `
     select user_id 
     from users 
     where username = $1 and password = $2`
     row := db.QueryRow(query, username, password)
-    switch err := row.Scan(&test); err {
+    switch err := row.Scan(&uid); err {
     case sql.ErrNoRows:
-        return false, test
+        return false, uid
     case nil:
-        return true, test
+        return true, uid
     default:
         panic(err)
     }
