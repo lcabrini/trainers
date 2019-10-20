@@ -4,29 +4,29 @@ import (
     "fmt"
     "net/http"
     "html/template"
+    "github.com/google/uuid"
     "database/sql"
 )
 
 type Auth struct {}
 
-func authenticate(username string, password string) bool {
-    var test string
+func authenticate(username string, password string) (bool, uuid.UUID) {
+    var test uuid.UUID
 
     query := `
-    select username 
+    select user_id 
     from users 
     where username = $1 and password = $2`
     row := db.QueryRow(query, username, password)
     switch err := row.Scan(&test); err {
     case sql.ErrNoRows:
-        return false
+        return false, test
     case nil:
-        return true
+        return true, test
     default:
         panic(err)
     }
 }
-
 
 func (a *Auth) login(res http.ResponseWriter, req *http.Request) {
     switch req.Method {
@@ -45,8 +45,11 @@ func (a *Auth) login(res http.ResponseWriter, req *http.Request) {
         req.ParseForm()
         username := req.FormValue("username")
         password := req.FormValue("password")
-        if authenticate(username, password) {
-            fmt.Fprintf(res, "Logged in")
+        ret, uid := authenticate(username, password)
+        if ret == true {
+            // fmt.Fprintf(res, "Logged in, uid = %s", uid.String())
+            sessionManager.Put(req.Context(), "user", uid.String())
+            http.Redirect(res, req, "/", 301)
         } else {
             fmt.Fprintf(res, "Authentication failed")
         }
