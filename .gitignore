@@ -1,4 +1,4 @@
 .*.swp
 trainers
 config.go
-resources/
+static/
