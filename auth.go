@@ -16,7 +16,7 @@ func authenticate(username string, password string) bool {
     select username 
     from users 
     where username = $1 and password = $2`
-    row := DB.QueryRow(query, username, password)
+    row := db.QueryRow(query, username, password)
     switch err := row.Scan(&test); err {
     case sql.ErrNoRows:
         return false
