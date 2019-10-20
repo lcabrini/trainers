@@ -8,8 +8,8 @@ func main() {
     auth := &Auth{}
     auth.Setup()
 
-    fs := http.FileServer(http.Dir("/resources/"))
-    http.Handle("/resources/", fs)
+    fs := http.FileServer(http.Dir("static/"))
+    http.Handle("/", fs)
 
     http.ListenAndServe(":8000", nil)
 }
