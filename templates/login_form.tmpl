@@ -1,9 +1,44 @@
 {{template "base" .}}
 
 {{define "main"}}
-<form method="post">
-  Username: <input type="text" name="username"><br>
-  Password: <input type="password" name="password"><br>
-  <input type="submit" value="Login">
-</form>
+  <div class="container columns">
+    <div class="card column is-half is-offset-one-quarter">
+      <header class="card-header">
+        <p class="card-header-title">Login</p>
+      </header>
+      
+      <div class="card-content">
+        <p class="subtitle">
+            Login here.
+        </p>
+        <form method="post">
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control has-icons-left">
+              <input type="text" class="input" name="username" placeholder="Your username">
+              <span class="icon is-small is-left">
+                <i class="fa fa-envelope"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control has-icons-left">
+              <input type="text" class="input" name="password" placeholder="Your password">
+              <span class="icon is-small is-left">
+                <i class="fa fa-key"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field has-text-right">
+            <button class="button is-success">
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>  
 {{end}}
